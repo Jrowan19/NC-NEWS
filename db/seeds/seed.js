@@ -8,22 +8,31 @@ const {
 const { formatDates, formatComments, makeRefObj } = require('../utils/utils');
 
 exports.seed = function (connection) {
-  const topicsInsertions = connection('topics').insert(topicData);
-  const usersInsertions = connection('users').insert(userData);
-  return connection.migrate.rollback().then(() => {
-    return connection.migrate.latest()
-  })
-
+  return connection
+    .migrate
+    .rollback()
     .then(() => {
+      return connection
+        .migrate
+        .latest()
+    })
+    .then(() => {
+      const topicsInsertions = connection('topics').insert(topicData);
+      const usersInsertions = connection('users').insert(userData);
       return Promise.all([topicsInsertions, usersInsertions])
-    }).then(() => {
-      const formattedArticles = formatDates(articleData)
-      return connection.insert(formattedArticles).into('Articles').returning('*')
+    })
+    .then(() => {
+      const formattedArticleData = formatDates(articleData);
+      return connection('articles')
+        .insert(formattedArticleData)
+        .returning('*')
     })
     .then(articleRows => {
-      const articleRef = makeRefObj(articleRows);
+      const articleRef = makeRefObj(articleRows, 'title', 'article_id');
       const formattedComments = formatComments(commentData, articleRef);
-      return connection('comments').insert(formattedComments);
+      return connection('comments')
+        .insert(formattedComments)
+        .returning('*')
     });
 };
 
