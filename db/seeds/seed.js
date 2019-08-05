@@ -14,7 +14,7 @@ exports.seed = function (connection) {
     .then(() => {
       return connection
         .migrate
-        .latest()
+        .latest() 
     })
     .then(() => {
       const topicsInsertions = connection('topics').insert(topicData);
