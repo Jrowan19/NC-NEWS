@@ -1,6 +1,6 @@
 exports.formatDates = list => {
     return list.map(({ created_at, ...restOfObject }) => {
-        console.log(created_at)
+        //console.log(created_at)
         return created_at ?
             {
                 created_at: new Date(created_at),
@@ -8,15 +8,53 @@ exports.formatDates = list => {
 
             } : { ...restOfObject }
     });
-
 };
 
-exports.makeRefObj = list => { };
+exports.makeRefObj = (array, key, value) => {
 
-exports.formatComments = (comments, articleRef) => { };
+    return array.reduce((refObj, element) => {
+        refObj[element[key]] = element[value];
+
+        return refObj
+    }, {});
+};
+
+exports.formatComments = (comments, articleRef) => {
+    //console.log(comments)
+
+    return comments.map(({ created_by, belongs_to, created_at, ...restOfKeys }) => {
+        return {
+            author: created_by,
+            article_id: articleRef[belongs_to],
+            created_at: new Date(created_at),
+            ...restOfKeys
+        }; // change all of the properties then spread the rest of the keys out 
+    });
+};
 
 
-exports.changeShopData = (shops, refObj) => {
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
