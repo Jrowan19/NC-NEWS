@@ -9,7 +9,7 @@ exports.handlePsqlErrors = (err, req, res, next) => {
             "22P02": err.message
         }
         res.status(400).send({
-            message: psqlBadRequestCodes[err.code]
+            message: psqlBadRequestCodes[err.code] || 'Bad Request'
         });
     }
 }
