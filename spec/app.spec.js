@@ -19,6 +19,24 @@ describe("/api", () => {
             });
     });
 
+    describe('#GET TOPICS', () => {
+        it('should return status 200 when all topics are sent back to client', () => {
+            return request(app)
+                .get('/api/topics')
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.topics).to.be.an('Array')
+                    //expect(body.topics[0]).to.be.an('Object')
+                })
+        })
+    })
 
 
-});
+
+
+
+
+
+
+})
+

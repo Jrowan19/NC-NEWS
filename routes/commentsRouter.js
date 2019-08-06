@@ -1,4 +1,4 @@
-const commentRouter = require('express').Router
+const commentRouter = require('express').Router()
 
 
 

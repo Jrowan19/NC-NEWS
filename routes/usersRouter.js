@@ -1,3 +1,3 @@
-const usersRouter = require('experss').usersRouter
+const usersRouter = require('express').Router()
 
 module.exports = usersRouter
