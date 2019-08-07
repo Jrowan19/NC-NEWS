@@ -4,6 +4,5 @@ exports.getTopics = () => {
     return connection('topics')
         .select('*')
         .from('topics')
-
 }
 

@@ -201,7 +201,7 @@ GET /api/articles/:article_id
 - an article object, which should have the following properties:
 
   - `author` which is the `username` from the users table
-  - `title`
+  - `title` 
   - `article_id`
   - `body`
   - `topic`

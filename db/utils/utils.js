@@ -1,6 +1,6 @@
 exports.formatDates = list => {
     return list.map(({ created_at, ...restOfObject }) => {
-        //console.log(created_at)
+       
         return created_at ?
             {
                 created_at: new Date(created_at),

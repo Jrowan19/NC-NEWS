@@ -33,34 +33,108 @@ describe("/api", () => {
                 .get('/api/topics')
                 .expect(200)
                 .then(({ body }) => {
-                    //console.log(body)
                     expect(body.topics[0]).to.have.keys('slug', 'description')
                 })
         })
-        it('should return 404 Route Not Found, when provided with an invalid route', () => {
+        it('ERROR - should return 404 Route Not Found, when provided with an invalid route', () => {
             return request(app)
-                .get('/api/not-a-route')
+                .get('/not-a-route')
                 .expect(404)
                 .then(({ body }) => {
                     expect(body.msg).to.eql(body.msg)
                 })
         })
-
-        describe('#GET USERS', () => {
-            it('should return status 200 and the requested username object', () => {
+        it('ERROR - gives a 405 status and "Method Not Allowed" when attempting to post, patch or delete topics', () => {
+            const invalidMethods = ["patch", "put", "delete"];
+            const methodPromises = invalidMethods.map(method => {
                 return request(app)
-                    .get('/api/owners/username')
-                    .expect(200)
-                    .then(({ body: { username } }) => {
-                        expect(username).to.eql('icellusedkars')
-                    })
-            })
+                [method]("/api/topics")
+                    .expect(405)
+                    .then(({ body }) => {
+                        expect(body.msg).to.equal(body.msg);
+                    });
+            });
+            return Promise.all(methodPromises);
+        });
+    });
+
+    describe('#GET USERS', () => {
+        it("should return a user object", () => {
+            return request(app)
+                .get("/api/users/butter_bridge")
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.user).to.be.an("object");
+                    expect(body.user).to.have.all.keys("username", "avatar_url", "name");
+                });
+        });
+        it('ERROR - should return 404 when a non existant username is passed', () => {
+            return request(app)
+                .get("/api/users/not-a-name")
+                .expect(404)
+                .then(({ body }) => {
+                    expect(body.msg).to.equal(body.msg);
+                });
+        });
+        it('ERROR - should return 404 when a non existant user is provided', () => {
+            return request(app)
+                .get("/api/users/5")
+                .expect(404)
+                .then(({ body }) => {
+                    expect(body.msg).to.equal(body.msg);
+                });
+        });
+    })
+    describe('#GET ARTICLES', () => {
+        it("returns a 200 status and article data when passed a valid artcile_id", () => {
+            return request(app)
+                .get("/api/articles/3")
+                .expect(200)
+                .then(({ body }) => {
+                    //console.log(body)
+                    expect(body.article).to.be.an('Object')
+                    expect(body.article).to.have.keys(
+                        "author",
+                        "title",
+                        "article_id",
+                        "body",
+                        "topic",
+                        "created_at",
+                        "votes",
+                        "comment_count"
+                    )
+                });
+        });
+        it('ERROR - returns 404 when passed a non existant article_id', () => {
+            return request(app)
+                .get('/api/articles/12345')
+                .expect(404)
+                .then(({ body }) => {
+                    expect(body.msg).to.equal(body.msg)
+                })
+        })
+        it('ERROR - returns status 400 when passed the id is passed in the wrong format, such as a string', () => {
+            return request(app)
+                .get('/api/articles/this-is-a-string')
+                .expect(400)
+                .then(({ body }) => {
+                    expect(body.msg).to.equal(body.msg)
+                })
         })
 
+    });
+    describe("PATCH /article_id", () => {
+        it('returns status 200 when successfully increasing the votes by 1', () => {
+            return request(app)
+                .patch("/api/articles/1")
+                .send({ inc_votes: 1 })
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.article.votes).to.equal(101);
+                })
 
-
+        })
 
     })
 
 })
-

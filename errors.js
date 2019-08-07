@@ -1,6 +1,7 @@
 exports.methodNotFound = (req, res, next) => {
     res.status(405).send({ msg: "Method Not Allowed" });
 };
+
 exports.handlePsqlErrors = (err, req, res, next) => {
     if (err.code) {
         const psqlBadRequestCodes = {
@@ -12,12 +13,14 @@ exports.handlePsqlErrors = (err, req, res, next) => {
             message: psqlBadRequestCodes[err.code] || 'Bad Request'
         });
     }
+    else next(err)
 }
 exports.routeError = (req, res, next) => {
     res.status(404).send({
         msg: "Route Not Found"
     });
 };
+
 exports.customErrors = (err, req, res, next) => {
     if (err.status) {
         res.status(err.status).send({
