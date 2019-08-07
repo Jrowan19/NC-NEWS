@@ -44,7 +44,7 @@ describe("/api", () => {
                     expect(body.msg).to.eql(body.msg)
                 })
         })
-        it('ERROR - gives a 405 status and "Method Not Allowed" when attempting to post, patch or delete topics', () => {
+        it('ERROR - gives a 405 "method not allowed" message when trying to post, patch or delete topics', () => {
             const invalidMethods = ["patch", "put", "delete"];
             const methodPromises = invalidMethods.map(method => {
                 return request(app)
@@ -84,6 +84,18 @@ describe("/api", () => {
                     expect(body.msg).to.equal(body.msg);
                 });
         });
+        it('ERROR - gives a 405 "method not allowed" message when trying to post, patch or delete users', () => {
+            const invalidMethods = ["patch", "put", "delete"];
+            const methodPromises = invalidMethods.map(method => {
+                return request(app)
+                [method]("/api/topics")
+                    .expect(405)
+                    .then(({ body }) => {
+                        expect(body.msg).to.equal(body.msg);
+                    });
+            });
+            return Promise.all(methodPromises);
+        });
     })
     describe('#GET ARTICLES', () => {
         it("returns a 200 status and article data when passed a valid artcile_id", () => {
@@ -121,7 +133,6 @@ describe("/api", () => {
                     expect(body.msg).to.equal(body.msg)
                 })
         })
-
     });
     describe("PATCH /article_id", () => {
         it('returns status 200 when successfully increasing the votes by 1', () => {
@@ -132,7 +143,24 @@ describe("/api", () => {
                 .then(({ body }) => {
                     expect(body.article.votes).to.equal(101);
                 })
-
+        })
+        it('returns status 200 when successfully decrements the votes by 99', () => {
+            return request(app)
+                .patch("/api/articles/1")
+                .send({ inc_votes: -99 })
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.article.votes).to.equal(1);
+                })
+        })
+        it('ERROR - should return status 400 when trying to increment the vote using a string value', () => {
+            return request(app)
+                .patch('/api/articles/one')
+                .send({ inc_votes: 1 })
+                .expect(400)
+                .then(({ body }) => {
+                    expect(body.msg).to.equal(body.msg)
+                })
         })
 
     })
