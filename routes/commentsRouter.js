@@ -1,5 +1,9 @@
-const commentRouter = require('express').Router()
-const { methodNotFound } = require('../errors')
-//.all(methodNotFound);
+// const commentsRouter = require('express').Router()
+// const { postComment } = require('../controllers/comments-controller')
+// const { methodNotFound } = require('../errors')
 
-module.exports = commentRouter
+
+
+
+
+// module.exports = commentsRouter

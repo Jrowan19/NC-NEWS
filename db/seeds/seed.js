@@ -8,13 +8,14 @@ const {
 const { formatDates, formatComments, makeRefObj } = require('../utils/utils');
 
 exports.seed = function (connection) {
+
   return connection
     .migrate
     .rollback()
     .then(() => {
       return connection
         .migrate
-        .latest() 
+        .latest()
     })
     .then(() => {
       const topicsInsertions = connection('topics').insert(topicData);
@@ -33,7 +34,7 @@ exports.seed = function (connection) {
       return connection('comments')
         .insert(formattedComments)
         .returning('*')
-    });
+    })
 };
 
 

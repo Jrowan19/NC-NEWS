@@ -1,35 +1,29 @@
-exports.methodNotFound = (req, res, next) => {
-    res.status(405).send({ msg: "Method Not Allowed" });
-};
+exports.routeError = (req, res) => {
+    res.status(404).send({ msg: 'route not found' });
+}
+
+exports.customErrors = (err, req, res, next) => {
+    if (err.status) res.status(err.status).send({ msg: err.msg });
+    else next(err);
+}
 
 exports.handlePsqlErrors = (err, req, res, next) => {
     if (err.code) {
-        const psqlBadRequestCodes = {
-            42703: err.message,
-            23503: err.message,
-            "22P02": err.message
+        const codes = {
+            "22P02": { status: 400, msg: 'INVALID TEXT REPRESENTATION' },
+            23502: { status: 400, msg: 'NOT NULL VIOLATION' },
+            23503: { status: 404, msg: 'FOREIGN KEY VIOLATION' },
+            42703: { status: 400, msg: 'UNDEFINED COLUMN' },
         }
-        res.status(400).send({
-            message: psqlBadRequestCodes[err.code] || 'Bad Request'
-        });
+        res.status(codes[err.code].status).send({ msg: codes[err.code].msg })
     }
-    else next(err)
+    else next(err);
 }
-exports.routeError = (req, res, next) => {
-    res.status(404).send({
-        msg: "Route Not Found"
-    });
-};
 
-exports.customErrors = (err, req, res, next) => {
-    if (err.status) {
-        res.status(err.status).send({
-            message: err.msg
-        });
-    } else {
-        next(err);
-    }
-};
+exports.methodNotFound = (req, res) => {
+    res.status(405).send({ msg: 'method not allowed' });
+}
+
 exports.serverError = (err, req, res, next) => {
     res.status(500).send({
         msg: "internal server error"

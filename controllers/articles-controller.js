@@ -1,8 +1,9 @@
-const { getArticleByID, updateArticleByID } = require('../models/articles-model')
+const { selectArticleByID, updateArticleByID, selectCommentByID, insertComment } = require('../models/articles-model')
+
 
 
 exports.sendArticleByID = (req, res, next) => {
-    getArticleByID(req.params)
+    selectArticleByID(req.params)
         .then(article => {
             res.status(200).send({ article });
         })
@@ -15,6 +16,27 @@ exports.patchArticleByID = (req, res, next) => {
             res.status(200).send({ article })
         })
         .catch(next)
+}
+
+exports.postComment = (req, res, next) => {
+    insertComment(req.params, req.body)
+        .then(comment => {
+            res.status(201).send({ comment });
+        })
+        .catch(next);
+}
+
+
+exports.sendCommentByID = (req, res, next) => {
+    selectCommentByID(req.params, req.query)
+        .then(comments => {
+            res.status(200).send({ comments })
+        })
+        .catch(next)
 
 }
 
+exports.sendArticles = (req, res, next) => {
+    selectArticles()
+
+}

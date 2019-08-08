@@ -1,7 +1,7 @@
 const connection = require('../db/connection.js')
 
 
-exports.getArticleByID = ({ article_id }) => {
+exports.selectArticleByID = ({ article_id }) => {
     return connection
         .select('articles.*')
         .from('articles')
@@ -16,8 +16,6 @@ exports.getArticleByID = ({ article_id }) => {
 };
 
 exports.updateArticleByID = ({ article_id }, { inc_votes = 0 }) => {
-    //req.params && req.body
-
     return connection
         .increment('votes', inc_votes)
         .from('articles')
@@ -27,8 +25,31 @@ exports.updateArticleByID = ({ article_id }, { inc_votes = 0 }) => {
             if (!articleData.length) return Promise.reject({ status: 404, msg: "Article Not Found" });
             else return articleData[0]
         })
-
-
 }
+
+exports.insertComment = ({ article_id }, { username, body }) => {
+    return connection('comments')
+        .insert({ article_id, author: username, body })
+        .returning('*')
+        .then(commentData => {
+            if (!commentData) return Promise.reject({ status: 404, msg: "Comment Not Found" });
+            else return commentData[0]
+        })
+}
+
+exports.selectCommentByID = ({ article_id }, { sort_by = 'created_at', order = 'desc' }) => {
+    return connection
+        .select("comments.*")
+        .from('comments')
+        .join('articles', 'comments.article_id', 'articles.article_id')
+        .orderBy(sort_by, order)
+        .where('comments.article_id', article_id)
+        .returning('*')
+        .then(comments => {
+            if (!comments.length) {
+                return Promise.reject({ status: 404, msg: 'Comment not found' })
+            } else return comments
+        })
+};
 
 
