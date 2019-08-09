@@ -2,7 +2,7 @@ const { updateCommentByCommentID, removeCommentByID } = require('../models/comme
 
 exports.patchCommentByCommentID = (req, res, next) => {
     updateCommentByCommentID(req.params, req.body)
-        .then(comment => {
+        .then(([comment]) => {
             res.status(200).send({ comment })
         })
         .catch(next)

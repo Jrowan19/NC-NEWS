@@ -46,12 +46,7 @@ exports.selectCommentByID = ({ article_id }, { sort_by = 'created_at', order = '
         .orderBy(sort_by, order)
         .where('comments.article_id', article_id)
         .returning('*')
-        .then(comments => {
-            if (!comments.length) {
-                return Promise.reject({ status: 404, msg: 'Comment not found' })
-            } else return comments
-        })
-};
+}
 
 exports.selectAllArticles = ({ sort_by = 'created_at', order = 'desc', author, topic }) => {
     return connection('articles')

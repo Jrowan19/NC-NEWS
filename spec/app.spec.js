@@ -10,15 +10,6 @@ chai.use(chaiSorted);
 describe("/api", () => {
     beforeEach(() => connection.seed.run());
     after(() => connection.destroy());
-    it("api router status 200 message", () => {
-        return request(app)
-            .get("/api")
-            .expect(200)
-            .then(({ body }) => {
-                expect(body.msg).to.equal("you have reached the api router");
-            });
-    });
-
     describe('#GET TOPICS', () => {
         it('should return status 200 when all topics are sent back to client', () => {
             return request(app)
@@ -152,9 +143,8 @@ describe("/api", () => {
                 .send({ inc_votes: 1 })
                 .expect(200)
                 .then(({ body }) => {
-                    expect(body.article).to.be.an('Array')
-                    expect(body.article[0]).to.be.an('Object')
-                    expect(body.article[0].votes).to.equal(101);
+                    expect(body.article).to.be.an('Object')
+                    expect(body.article.votes).to.equal(101);
                 })
         })
         it('returns status 200 when successfully decrements the votes by 99', () => {
@@ -163,7 +153,7 @@ describe("/api", () => {
                 .send({ inc_votes: -99 })
                 .expect(200)
                 .then(({ body }) => {
-                    expect(body.article[0].votes).to.equal(1);
+                    expect(body.article.votes).to.equal(1);
                 })
         })
         it('returns a status 200 when sent an empty request body and the votes unaltered', () => {
@@ -172,7 +162,7 @@ describe("/api", () => {
                 .send({})
                 .expect(200)
                 .then(({ body }) => {
-                    expect(body.article[0].votes).to.equal(100);
+                    expect(body.article.votes).to.equal(100);
                 });
         });
         it('ERROR - should return status 400 when trying to increment the vote using a string value', () => {
@@ -217,14 +207,14 @@ describe("/api", () => {
                     expect(body.comment.author).to.eql('butter_bridge')
                 })
         })
-        it('ERROR - status 400 when posted a comment to a user who doesnt exist', () => {
+        it('ERROR - status 404 when posted a comment to a user who doesnt exist', () => {
             return request(app)
                 .post('/api/articles/1/comments')
                 .send({
                     username: 'jrowan',
                     body: 'LIVERPOOL FC CHAMPIONS LEAGEUE WINNER 2019'
                 })
-                .expect(400)
+                .expect(404)
                 .then(({ body }) => {
                     expect(body.msg).to.equal('Foreign key violation');
                 })
@@ -241,14 +231,14 @@ describe("/api", () => {
                     expect(body.msg).to.eql('Invalid text representation')
                 })
         })
-        it('ERROR- 400 when posted a comment using a non existant article_id', () => {
+        it('ERROR- status 404 when posting a correctly formatted article_id, which does not exist', () => {
             return request(app)
                 .post('/api/articles/12345/comments')
                 .send({
                     username: 'butter_bridge',
                     body: 'this is tough'
                 })
-                .expect(400)
+                .expect(404)
                 .then(({ body }) => {
                     expect(body.msg).to.equal('Foreign key violation');
                 })
@@ -288,6 +278,14 @@ describe("/api", () => {
                     expect(body.comments[0]).to.be.an('object')
                     expect(body.comments[0]).to.contain.keys("article_id", "author", "body", "comment_id", "created_at",
                         "votes")
+                })
+        });
+        it('returns status 200 and an array for given article id', () => {
+            return request(app)
+                .get('/api/articles/2/comments')
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.comments).to.be.an('array')
                 })
         });
         it('returns status 200 and sorts the comments in descending order and by the default of created_at even when no query is passed', () => {
@@ -465,9 +463,9 @@ describe("/api", () => {
                     .send({ inc_votes: 7 })
                     .expect(200)
                     .then(({ body }) => {
-                        expect(body.comment).to.be.an('array')
-                        expect(body.comment[0]).to.be.an('object')
-                        expect(body.comment[0].votes).to.eql(23);
+                        expect(body.comment).to.be.an('object')
+                        expect(body.comment.votes).to.equal(23);
+                        //expect(body.article.votes).to.equal(1);
                     })
             })
             it('should return status 200 and a decremented number of votes', () => {
@@ -476,7 +474,7 @@ describe("/api", () => {
                     .send({ inc_votes: -6 })
                     .expect(200)
                     .then(({ body }) => {
-                        expect(body.comment[0].votes).to.eql(10)
+                        expect(body.comment.votes).to.equal(10)
                     })
             })
             it('returns a status 200 when sent an empty request body and the votes unaltered', () => {
@@ -485,7 +483,7 @@ describe("/api", () => {
                     .send({})
                     .expect(200)
                     .then(({ body }) => {
-                        expect(body.comment[0].votes).to.equal(16);
+                        expect(body.comment.votes).to.equal(16);
                     });
             });
             it('ERROR - should return status 400 when trying to increment the vote using a string value', () => {

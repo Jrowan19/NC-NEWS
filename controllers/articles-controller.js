@@ -12,7 +12,7 @@ exports.sendArticleByID = (req, res, next) => {
 
 exports.patchArticleByID = (req, res, next) => {
     updateArticleByID(req.params, req.body)
-        .then(article => {
+        .then(([article]) => {
             res.status(200).send({ article })
         })
         .catch(next)
@@ -28,12 +28,14 @@ exports.postComment = (req, res, next) => {
 
 
 exports.sendCommentByID = (req, res, next) => {
+    selectArticleByID(req.params)
+        .then()
+        .catch(next)
     selectCommentByID(req.params, req.query)
         .then(comments => {
             res.status(200).send({ comments })
         })
         .catch(next)
-
 }
 
 exports.sendAllArticles = (req, res, next) => {

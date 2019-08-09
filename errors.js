@@ -12,7 +12,7 @@ exports.handlePsqlErrors = (err, req, res, next) => {
         const codes = {
             "22P02": { status: 400, msg: 'Invalid text representation' },
             23502: { status: 400, msg: 'Not null violation' },
-            23503: { status: 400, msg: 'Foreign key violation' },
+            23503: { status: 404, msg: 'Foreign key violation' },
             42703: { status: 400, msg: 'Undefined column' },
         }
         res.status(codes[err.code].status).send({ msg: codes[err.code].msg })
