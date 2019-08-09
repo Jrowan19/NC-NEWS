@@ -18,6 +18,7 @@ describe("/api", () => {
                 expect(body.msg).to.equal("you have reached the api router");
             });
     });
+
     describe('#GET TOPICS', () => {
         it('should return status 200 when all topics are sent back to client', () => {
             return request(app)
@@ -57,6 +58,7 @@ describe("/api", () => {
             return Promise.all(methodPromises);
         });
     });
+
     describe('#GET USERS /:username', () => {
         it("should return a user object", () => {
             return request(app)
@@ -96,6 +98,7 @@ describe("/api", () => {
             return Promise.all(methodPromises);
         });
     })
+
     describe('#GET ARTICLES/:article_id', () => {
         it("returns a 200 status and article data when passed a valid artcile_id", () => {
             return request(app)
@@ -190,7 +193,8 @@ describe("/api", () => {
                     expect(body.msg).to.equal('Invalid text representation');
                 });
         });
-    }) // *** add more tests *** 
+    })
+
     describe('#POST /:article_id/comments', () => {
         it('returns status 201 and checks the keys and posted comment', () => {
             return request(app)
@@ -260,21 +264,20 @@ describe("/api", () => {
                     expect(body.msg).to.equal('Not null violation');
                 })
         });
-    });
-    it('ERROR - status 405 and "Method Not Allowed" when attempting to patch, put or delete comments', () => {
-        const invalidMethods = ["patch", "put", "delete"];
-        const methodPromises = invalidMethods.map(method => {
-            return request(app)
-            [method]("/api/articles/:article_id/comments")
-                .expect(405)
-                .then(({ body }) => {
-                    expect(body.msg).to.equal('method not allowed');
-                });
+
+        it('ERROR - status 405 and "Method Not Allowed" when attempting to patch, put or delete comments', () => {
+            const invalidMethods = ["patch", "put", "delete"];
+            const methodPromises = invalidMethods.map(method => {
+                return request(app)
+                [method]("/api/articles/:article_id/comments")
+                    .expect(405)
+                    .then(({ body }) => {
+                        expect(body.msg).to.equal('method not allowed');
+                    });
+            });
+            return Promise.all(methodPromises);
         });
-        return Promise.all(methodPromises);
     });
-
-
     describe('#GET /:article_id/comments', () => {
         it('returns status 200 and an array for given article id', () => {
             return request(app)
