@@ -1,11 +1,11 @@
 const articlesRouter = require('express').Router()
-const { sendArticleByID, patchArticleByID, postComment, sendCommentByID, sendArticles } = require('../controllers/articles-controller')
+const { sendArticleByID, patchArticleByID, postComment, sendCommentByID, sendAllArticles } = require('../controllers/articles-controller')
 const { methodNotFound } = require('../errors')
 
 
 articlesRouter.route('/')
-    .get(sendArticles)
-    .all(methhodNotFound)
+    .get(sendAllArticles)
+    .all(methodNotFound)
 
 
 articlesRouter.route('/:article_id')

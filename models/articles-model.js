@@ -17,13 +17,14 @@ exports.selectArticleByID = ({ article_id }) => {
 
 exports.updateArticleByID = ({ article_id }, { inc_votes = 0 }) => {
     return connection
-        .increment('votes', inc_votes)
+        .select('*')
         .from('articles')
         .where(' article_id', article_id)
+        .increment('votes', inc_votes)
         .returning('*')
         .then(articleData => {
             if (!articleData.length) return Promise.reject({ status: 404, msg: "Article Not Found" });
-            else return articleData[0]
+            else return articleData
         })
 }
 
@@ -51,5 +52,44 @@ exports.selectCommentByID = ({ article_id }, { sort_by = 'created_at', order = '
             } else return comments
         })
 };
+
+exports.selectAllArticles = ({ sort_by = 'created_at', order = 'desc', author, topic }) => {
+    return connection('articles')
+        .select(
+            'articles.author',
+            'title',
+            'articles.article_id',
+            'topic',
+            'articles.created_at',
+            'articles.votes')
+        .count({ comment_count: 'comments' })
+        .leftJoin("comments", "articles.article_id", "comments.article_id")
+        .groupBy("articles.article_id")
+        .orderBy(sort_by, order)
+        .modify((query) => {
+            if (author) {
+                query.where('articles.author', author)
+            } if (topic) {
+                query.where('articles.topic', topic)
+            }
+        })
+        .then(articles => {
+            if (!articles.length && author) {
+                return Promise.reject({ status: 404, msg: 'Author not found' })
+            } else if (!articles.length && topic) {
+                return Promise.reject({ status: 404, msg: 'Topic not found' })
+            } return articles
+        })
+};
+
+
+
+
+
+
+
+
+
+
 
 

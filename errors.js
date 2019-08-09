@@ -10,10 +10,10 @@ exports.customErrors = (err, req, res, next) => {
 exports.handlePsqlErrors = (err, req, res, next) => {
     if (err.code) {
         const codes = {
-            "22P02": { status: 400, msg: 'INVALID TEXT REPRESENTATION' },
-            23502: { status: 400, msg: 'NOT NULL VIOLATION' },
-            23503: { status: 404, msg: 'FOREIGN KEY VIOLATION' },
-            42703: { status: 400, msg: 'UNDEFINED COLUMN' },
+            "22P02": { status: 400, msg: 'Invalid text representation' },
+            23502: { status: 400, msg: 'Not null violation' },
+            23503: { status: 400, msg: 'Foreign key violation' },
+            42703: { status: 400, msg: 'Undefined column' },
         }
         res.status(codes[err.code].status).send({ msg: codes[err.code].msg })
     }

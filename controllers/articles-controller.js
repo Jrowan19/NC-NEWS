@@ -1,4 +1,4 @@
-const { selectArticleByID, updateArticleByID, selectCommentByID, insertComment } = require('../models/articles-model')
+const { selectArticleByID, updateArticleByID, selectCommentByID, insertComment, selectAllArticles } = require('../models/articles-model')
 
 
 
@@ -36,7 +36,10 @@ exports.sendCommentByID = (req, res, next) => {
 
 }
 
-exports.sendArticles = (req, res, next) => {
-    selectArticles()
-
+exports.sendAllArticles = (req, res, next) => {
+    selectAllArticles(req.query)
+        .then(articles => {
+            res.status(200).send({ articles })
+        })
+        .catch(next)
 }

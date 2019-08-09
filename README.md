@@ -271,6 +271,8 @@ GET /api/articles/:article_id/comments
 
 ```http
 GET /api/articles
+
+
 ```
 
 #### Responds with
