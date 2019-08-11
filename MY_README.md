@@ -18,6 +18,7 @@
 <!-- <a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a> -->
 
 <a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> <img src="https://img.stackshare.io/stack/144/3wgIDj3j.png" alt="Link to my Heroku App"/> </a>
+<br>
 Link to my Heroku App, ** click Image **
 
 
