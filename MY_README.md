@@ -1,21 +1,18 @@
-Project Title
-NorthCoders News API
-
-Description
-
-
-Heroku Link
-
 <!DOCTYPE html>
 <html>
 <head>
+
 <body>
 
-<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a>>
 
-</body>
-</head>
-</html>
+<h1> NorthCoders News API </h1>
+
+<h3> Description </h3>
+
+<h3> Heroku Link </h3>
+
+<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a>
+
 
 Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -70,3 +67,8 @@ Acknowledgments
 Hat tip to anyone whose code was used
 Inspiration
 etc
+
+
+</body>
+</head>
+    </html>
