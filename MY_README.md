@@ -17,7 +17,7 @@
 
 <!-- <a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a> -->
 
-<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"><img src="https://www.google.co.uk/url?sa=i&source=images&cd=&ved=2ahUKEwiL6I7ImfvjAhUOrxoKHRqqA-4QjRx6BAgBEAQ&url=https%3A%2F%2Ficon-library.net%2Ficon%2Fheroku-icon-27.html&psig=AOvVaw1oRVu1E2wS8zCGIR9kcIXG&ust=1565626017950513" alt="heroku logo"/> </a>
+<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"><img src="https://www.google.co.uk/url?sa=i&source=images&cd=&ved=2ahUKEwiL6I7ImfvjAhUOrxoKHRqqA-4QjRx6BAgBEAQ&url=https%3A%2F%2Ficon-library.net%2Ficon%2Fheroku-icon-27.html&psig=AOvVaw1oRVu1E2wS8zCGIR9kcIXG&ust=1565626017950513" alt="Link to my Heroku App"/> </a>
 
 
 Getting Started
