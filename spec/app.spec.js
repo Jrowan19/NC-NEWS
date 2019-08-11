@@ -37,7 +37,7 @@ describe("/api", () => {
                 })
         })
         it('ERROR - status 405 "method not allowed" message when trying to post, patch or delete topics', () => {
-            const invalidMethods = ["patch", "put", "delete"];
+            const invalidMethods = ["patch", "post", "delete"];
             const methodPromises = invalidMethods.map(method => {
                 return request(app)
                 [method]("/api/topics")
@@ -123,7 +123,7 @@ describe("/api", () => {
                 .get('/api/articles/12345')
                 .expect(404)
                 .then(({ body }) => {
-                    expect(body.msg).to.equal("Article Not Found")
+                    expect(body.msg).to.equal(`Article 12345 Not Found`)
                 })
         })
         it('ERROR - returns status 400 when passed the id is passed in the wrong format, such as a string', () => {
@@ -231,7 +231,7 @@ describe("/api", () => {
                     expect(body.msg).to.eql('Invalid text representation')
                 })
         })
-        it('ERROR- status 404 when posting a correctly formatted article_id, which does not exist', () => {
+        it.only('ERROR- status 404 when posting a correctly formatted article_id, which does not exist', () => {
             return request(app)
                 .post('/api/articles/12345/comments')
                 .send({
@@ -268,7 +268,7 @@ describe("/api", () => {
             return Promise.all(methodPromises);
         });
     });
-    describe('#GET /:article_id/comments', () => {
+    describe.only('#GET /:article_id/comments', () => {
         it('returns status 200 and an array for given article id', () => {
             return request(app)
                 .get('/api/articles/1/comments')

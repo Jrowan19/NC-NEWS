@@ -10,7 +10,7 @@ exports.selectArticleByID = ({ article_id }) => {
         .leftJoin("comments", "articles.article_id", "comments.article_id")
         .groupBy("articles.article_id")
         .then(articleData => {
-            if (!articleData.length) return Promise.reject({ status: 404, msg: "Article Not Found" });
+            if (!articleData.length) return Promise.reject({ status: 404, msg: `Article ${article_id} Not Found` });
             else return articleData[0]
         });
 };
@@ -23,7 +23,7 @@ exports.updateArticleByID = ({ article_id }, { inc_votes = 0 }) => {
         .increment('votes', inc_votes)
         .returning('*')
         .then(articleData => {
-            if (!articleData.length) return Promise.reject({ status: 404, msg: "Article Not Found" });
+            if (!articleData.length) return Promise.reject({ status: 404, msg: `Article ${article_id} Not Found` });
             else return articleData
         })
 }
@@ -33,6 +33,7 @@ exports.insertComment = ({ article_id }, { username, body }) => {
         .insert({ article_id, author: username, body })
         .returning('*')
         .then(commentData => {
+            console.log(commentData)
             if (!commentData) return Promise.reject({ status: 404, msg: "Comment Not Found" });
             else return commentData[0]
         })
