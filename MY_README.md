@@ -17,9 +17,9 @@
 
 <!-- <a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a> -->
 
-<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"><img src="https://dailysmarty-production.s3.amazonaws.com/uploads/post/img/509/feature_thumb_heroku-logo.jpg" alt="Link to my Heroku App"/> </a>
+<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"><img src="https://img.stackshare.io/stack/144/3wgIDj3j.png" alt="Link to my Heroku App"/> </a>
 
-https://dailysmarty-production.s3.amazonaws.com/uploads/post/img/509/feature_thumb_heroku-logo.jpg
+https://img.stackshare.io/stack/144/3wgIDj3j.png
 Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
