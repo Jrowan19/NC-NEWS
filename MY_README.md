@@ -7,11 +7,17 @@
 
 <h1> NorthCoders News API </h1>
 
+<p> </p>
+
 <h3> Description </h3>
+
+<p> </p>
 
 <h3> Heroku Link </h3>
 
-<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a>
+<!-- <a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a> -->
+
+<a src="https://www.dailysmarty.com/posts/how-to-add-a-heroku-remote-to-an-existing-project" target="_blank"><img src="https://www.google.co.uk/url?sa=i&source=images&cd=&ved=2ahUKEwjAr87nmPvjAhXIAWMBHRtnDKQQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.dailysmarty.com%2Fposts%2Fhow-to-add-a-heroku-remote-to-an-existing-project&psig=AOvVaw3wCoqGluVTnpiJwLmAMx8V&ust=1565625818264540" alt="heroku logo"/> </a>
 
 
 Getting Started
