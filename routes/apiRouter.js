@@ -12,10 +12,9 @@ apiRouter.use('/comments', commentsRouter)
 apiRouter.use('/users', usersRouter)
 
 
-apiRouter.route('/', (req, res, next) => {
-    res.status(200).send({ msg: 'you have reached the api router' })
-        .get(getApiJson)
-        .all(methodNotFound)
-})
+apiRouter.route('/')
+    .get(getApiJson)
+    .all(methodNotFound)
+
 
 module.exports = apiRouter

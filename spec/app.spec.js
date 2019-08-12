@@ -10,6 +10,16 @@ chai.use(chaiSorted);
 describe("/api", () => {
     beforeEach(() => connection.seed.run());
     after(() => connection.destroy());
+    describe('JSON endpoints', () => {
+        it.only('returns a json object of all available endpoints', () => {
+            return request(app)
+                .get('/api')
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body).to.be.an('Object')
+                })
+        });
+    });
     describe('#GET TOPICS', () => {
         it('should return status 200 when all topics are sent back to client', () => {
             return request(app)
@@ -231,7 +241,7 @@ describe("/api", () => {
                     expect(body.msg).to.eql('Invalid text representation')
                 })
         })
-        it.only('ERROR- status 404 when posting a correctly formatted article_id, which does not exist', () => {
+        it('ERROR- status 404 when posting a correctly formatted article_id, which does not exist', () => {
             return request(app)
                 .post('/api/articles/12345/comments')
                 .send({
@@ -268,7 +278,7 @@ describe("/api", () => {
             return Promise.all(methodPromises);
         });
     });
-    describe.only('#GET /:article_id/comments', () => {
+    describe('#GET /:article_id/comments', () => {
         it('returns status 200 and an array for given article id', () => {
             return request(app)
                 .get('/api/articles/1/comments')
