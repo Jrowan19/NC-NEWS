@@ -4,4 +4,4 @@ const { methodNotFound } = require('../errors')
 
 topicsRouter.route('/').get(sendTopics).all(methodNotFound);
 
-module.exports = topicsRouter
+module.exports = topicsRouter   
