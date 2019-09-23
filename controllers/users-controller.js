@@ -1,4 +1,4 @@
-const { getUserByID } = require('../models/users-model');
+const { getUserByID, getUsers } = require('../models/users-model');
 
 exports.sendUserByID = (req, res, next) => {
   getUserByID(req.params)
