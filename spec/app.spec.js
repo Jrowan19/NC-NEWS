@@ -61,12 +61,13 @@ describe("/api", () => {
     });
 
 
-    describe('#GET USERS', () => {
+    describe.only('#GET USERS', () => {
         it('should return a list of all users', () => {
             return request(app)
                 .get('/api/users')
                 .expect(200)
                 .then(({ body }) => {
+                    console.log(body)
                     expect(body.users).to.be.an('Array')
                     
                 })
