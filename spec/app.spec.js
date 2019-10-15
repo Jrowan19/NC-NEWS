@@ -11,7 +11,7 @@ describe("/api", () => {
     beforeEach(() => connection.seed.run());
     after(() => connection.destroy());
     describe('JSON endpoints', () => {
-        it.only('returns a json object of all available endpoints', () => {
+        it('returns a json object of all available endpoints', () => {
             return request(app)
                 .get('/api')
                 .expect(200)
@@ -60,6 +60,28 @@ describe("/api", () => {
         });
     });
 
+
+    describe('#GET USERS', () => {
+        it('should return a list of all users', () => {
+            return request(app)
+                .get('/api/users')
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.users).to.be.an('Array')
+                    
+                })
+        })
+        it('should return a list of all users', () => {
+            return request(app)
+                .get('/api/users')
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.users).to.be.an('Array')
+                    
+                })
+        })
+        
+    });
     describe('#GET USERS /:username', () => {
         it("should return a user object", () => {
             return request(app)
