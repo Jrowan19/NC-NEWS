@@ -37,7 +37,6 @@ module.exports = [
   {
     username: 'rowandinho',
     name: 'John Rowan',
-    avatar_url:
-      'https://d3j2s6hdd6a7rg.cloudfront.net/v2/uploads/media/default/0001/89/thumb_88334_default_news_size_5.jpeg'
+    avatar_url: 'https://wallpaperbro.com/img/624639.jpg'
   }
 ];
