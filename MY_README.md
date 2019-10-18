@@ -26,45 +26,6 @@ So you can go ahead and run
 npm install
 There is one other file you're going to need to create yourself before we can start creating and seeding our databases. So first you need a new file in the root directory called exactly 'knexfile.js'. The content of this file should look as follows:
 
-If this is your first time using psql please first refer to psql-setup.md
-
-const ENV = process.env.NODE_ENV || 'development';
-const { DB_URL } = process.env;
-
-const baseConfig = {
-client: 'pg',
-migrations: {
-directory: './db/migrations'
-},
-seeds: {
-directory: './db/seeds'
-},
-migrations: {
-directory: './db/migrations'
-}
-};
-
-const customConfig = {
-production: {
-connection: `${DB_URL}?ssl=true`
-},
-development: {
-connection: {
-database: 'nc_news',
-user: '<YOUR-PG-USERNAME-HERE>', // LINUX ONLY
-password: '<YOUR-PG-PASSWORD-HERE>' // LINUX ONLY
-}
-},
-test: {
-connection: {
-database: 'nc_news_test',
-user: '<YOUR-PG-USERNAME-HERE>', // LINUX ONLY
-password: '<YOUR-PG-PASSWORD-HERE>' // LINUX ONLY
-}
-}
-};
-
-module.exports = { ...customConfig[ENV], ...baseConfig };
 Setting up and seeding databases
 Once those dependencies have been installed we can go ahead and setup our databases:
 npm run setup-dbs
