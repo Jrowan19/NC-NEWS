@@ -1,84 +1,119 @@
-<!DOCTYPE html>
-<html>
-<head>
+NorthCoders News API
+Description
+This is an API for interacting with my Northcoders news app. The database is PSQL and interactions are made using K'nex. The news app itself consists of tables for differnt topics, users, articles and comments and various endpoints are available for interaction with these tables.
 
-<body>
+Link
+https://john-rowan-news.herokuapp.com/api/articles
 
+Cloning and installing
+First, clone the repo:
 
-<h1> NorthCoders News API </h1>
+git clone https://github.com/Jrowan19/NC-NEWS
 
-<p> </p>
+cd NC-News
+On GitHub if you want your own repository for this project go ahead and set that up before running:
 
-<h3> Description </h3>
+git remote remove origin
 
-<p> </p>
+git remote add origin <YOUR-GITHUB-URL>
+The following dependencies are provided for you:
 
-<h3> Heroku Link </h3>
+express ^4.17.1
+knex ^0.19.0
+pg ^7.11.0
+So you can go ahead and run
 
-<!-- <a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> Link to my Heroku App </a> -->
+npm install
+There is one other file you're going to need to create yourself before we can start creating and seeding our databases. So first you need a new file in the root directory called exactly 'knexfile.js'. The content of this file should look as follows:
 
-<a href="https://john-rowan-news.herokuapp.com/api/articles" target="_blank"> <img src="https://img.stackshare.io/stack/144/3wgIDj3j.png" alt="Link to my Heroku App"/> </a>
-<br>
-Link to my Heroku App, ** click Image **
+If this is your first time using psql please first refer to psql-setup.md
 
+const ENV = process.env.NODE_ENV || 'development';
+const { DB_URL } = process.env;
 
-<h3>Getting Started</h3>
+const baseConfig = {
+client: 'pg',
+migrations: {
+directory: './db/migrations'
+},
+seeds: {
+directory: './db/seeds'
+},
+migrations: {
+directory: './db/migrations'
+}
+};
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+const customConfig = {
+production: {
+connection: `${DB_URL}?ssl=true`
+},
+development: {
+connection: {
+database: 'nc_news',
+user: '<YOUR-PG-USERNAME-HERE>', // LINUX ONLY
+password: '<YOUR-PG-PASSWORD-HERE>' // LINUX ONLY
+}
+},
+test: {
+connection: {
+database: 'nc_news_test',
+user: '<YOUR-PG-USERNAME-HERE>', // LINUX ONLY
+password: '<YOUR-PG-PASSWORD-HERE>' // LINUX ONLY
+}
+}
+};
 
-<h3> Prerequisites </h3>
+module.exports = { ...customConfig[ENV], ...baseConfig };
+Setting up and seeding databases
+Once those dependencies have been installed we can go ahead and setup our databases:
+npm run setup-dbs
+You now will have both development and test databases. Now to add all of our tables on our development and test databases respectively you can run:
+npm run migrate-latest
 
-What things you need to install the software and how to install them
+npm run migrate-latest-test
+You have two sets of data in the data folder. To populate your development and test databases respectively with this data you can run:
+npm run seed
 
-Give examples
-Installing
-A step by step series of examples that tell you how to get a development env running
+npm run seed-test
+Okay, great! You should now have two databases complete with tables and data.
+Testing
+If you want to run the existing tests you will firsts need the follwing developer dependencies:
 
-Say what the step will be
+chai ^4.2.0
+chai-sorted ^0.2.0
+mocha ^6.1.4
+supertest ^4.0.2
+npm install chai chai-sorted mocha supertest -D
+To run the tests you have the follwing existing scripts:
 
-Give the example
-And repeat
+To run the app.js tests:
+npm test
+To run the tests for the function found in db/utils:
+npm run test-utils
+To run all tests together:
+npm run all-tests
+For visual testing I also used nodemon which can be installed by running:
 
-until finished
-End with an example of getting some data out of the system or using it for a little demo
+npm install nodemon -D
+and can be run using:
 
-Running the tests
-Explain how to run the automated tests for this system
+npm run dev
+Other scripts
+If you make changes and need to rollback your migrations you have the following available:
+npm run migrate-rollback
 
-Break down into end to end tests
-Explain what these tests test and why
+npm run migrate-rollback-test
 
-Give an example
-And coding style tests
-Explain what these tests test and why
+npm runmigrate-down-up
+To start your server
+npm start
+Useful for seeding a production database hosted on heroku:
+npm run seed:prod
+Current Endpoints
+For a full list of endpoints including example requests and responses please click here
 
-Give an example
-Deployment
-Add additional notes about how to deploy this on a live system
-
-Built With
-Dropwizard - The web framework used
-Maven - Dependency Management
-ROME - Used to generate RSS Feeds
-Contributing
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-
-Versioning
-We use SemVer for versioning. For the versions available, see the tags on this repository.
-
-Authors
-Billie Thompson - Initial work - PurpleBooth
-See also the list of contributors who participated in this project.
-
-License
-This project is licensed under the MIT License - see the LICENSE.md file for details
-
+Author
+John Rowan
 Acknowledgments
-Hat tip to anyone whose code was used
-Inspiration
-etc
-
-
-</body>
-</head>
-    </html>
+NorthCoders
