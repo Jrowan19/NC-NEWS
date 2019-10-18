@@ -1,11 +1,17 @@
-NorthCoders News API
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+<h1>NorthCoders News API</h1>
+
+ </head>
 Description
 This is an API for interacting with my Northcoders news app. The database is PSQL and interactions are made using K'nex. The news app itself consists of tables for differnt topics, users, articles and comments and various endpoints are available for interaction with these tables.
 
-Link
-https://john-rowan-news.herokuapp.com/api/articles
+<a href='https://john-rowan-news.herokuapp.com/api/articles' target="_blank">Link to Hosted Back-End on Heroku</a>
 
-Cloning and installing
+<h2>Cloning and installing</h2>
 First, clone the repo:
 
 git clone https://github.com/Jrowan19/NC-NEWS
@@ -26,7 +32,7 @@ So you can go ahead and run
 npm install
 There is one other file you're going to need to create yourself before we can start creating and seeding our databases. So first you need a new file in the root directory called exactly 'knexfile.js'. The content of this file should look as follows:
 
-Setting up and seeding databases
+<h2> Setting up and seeding databases</h2>
 Once those dependencies have been installed we can go ahead and setup our databases:
 npm run setup-dbs
 You now will have both development and test databases. Now to add all of our tables on our development and test databases respectively you can run:
@@ -78,3 +84,8 @@ Author
 John Rowan
 Acknowledgments
 NorthCoders
+
+  <body>
+  
+  </body>
+</html>
