@@ -81,8 +81,11 @@ Current Endpoints
 For a full list of endpoints including example requests and responses please click here
 
 Author
+</br>
 John Rowan
+</br>
 Acknowledgments
+</br>
 NorthCoders
 
   <body>
