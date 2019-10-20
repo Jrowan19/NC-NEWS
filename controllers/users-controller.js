@@ -1,6 +1,5 @@
-const { getUserByID, insertUser } = require('../models/users-model');
+const { getUserByID, getUsers, insertUser } = require('../models/users-model');
 
-//getUsers,
 exports.sendUserByID = (req, res, next) => {
   getUserByID(req.params)
     .then(user => {
@@ -9,13 +8,13 @@ exports.sendUserByID = (req, res, next) => {
     .catch(next);
 };
 
-// exports.sendUsers = (req, res, next) => {
-//   getUsers()
-//     .then(users => {
-//       res.status(200).send({ users });
-//     })
-//     .catch(next);
-// };
+exports.sendUsers = (req, res, next) => {
+  getUsers()
+    .then(users => {
+      res.status(200).send({ users });
+    })
+    .catch(next);
+};
 
 exports.postUser = (req, res, next) => {
   insertUser(req.body)
