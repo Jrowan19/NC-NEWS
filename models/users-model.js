@@ -16,11 +16,11 @@ exports.getUserByID = ({ username }) => {
     });
 };
 
-exports.getUsers = () => {
-  return connection('users')
-    .select('*')
-    .from('users');
-};
+// exports.getUsers = () => {
+//   return connection('users')
+//     .select('*')
+//     .from('users');
+// };
 
 exports.insertUser = ({ username, name, avatar_url }) => {
   return connection('users')
