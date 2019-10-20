@@ -20,7 +20,7 @@ exports.makeRefObj = (array, key, value) => {
 };
 
 exports.formatComments = (comments, articleRef) => {
-    //console.log(comments)
+   
 
     return comments.map(({ created_by, belongs_to, created_at, ...restOfKeys }) => {
         return {

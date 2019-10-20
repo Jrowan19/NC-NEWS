@@ -61,13 +61,13 @@ describe("/api", () => {
     });
 
 
-    describe.only('#GET USERS', () => {
+    describe('#GET USERS', () => {
         it('should return a list of all users', () => {
             return request(app)
                 .get('/api/users')
                 .expect(200)
                 .then(({ body }) => {
-                    console.log(body)
+                  
                     expect(body.users).to.be.an('Array')
                     
                 })
@@ -109,8 +109,33 @@ describe("/api", () => {
                     expect(body.msg).to.equal('5 does not exist');
                 });
         });
+    })
+        describe.only('#POST USERS /USERS', () => {
+        it('returns status 201 and checks the keys and posted user', () => {
+            return request(app)
+                .post('/api/users')
+                .send({
+                    username: 'rowandinho',
+                    name: 'John rowan',
+                    avatar_url: 'https://resources.premierleague.com/photos/2019/09/27/8e3ec536-c4d3-48b4-8fdf-5a3ccec0706f/Liverpool-Digital-Membership.jpg?width=500&height=333'
+                })
+                .expect(201)
+                .then(({ body }) => {
+                    expect(body.user.name).to.equal('John rowan')       
+                    expect(body.user.username).to.equal('rowandinho')              
+                    expect(body.user).to.have.keys(
+                        'username',
+                        'avatar_url',
+                        'name')
+                    
+                })
+        })
+    })
+    
+
+    
         it('ERROR - status 405 "method not allowed" message when trying to post, patch or delete users', () => {
-            const invalidMethods = ["patch", "put", "delete", "post"];
+            const invalidMethods = ["patch", "put", "delete"];
             const methodPromises = invalidMethods.map(method => {
                 return request(app)
                 [method]("/api/users/:username")
@@ -121,7 +146,7 @@ describe("/api", () => {
             });
             return Promise.all(methodPromises);
         });
-    })
+
 
     describe('#GET ARTICLES/:article_id', () => {
         it("returns a 200 status and article data when passed a valid artcile_id", () => {

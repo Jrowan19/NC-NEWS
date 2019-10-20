@@ -21,3 +21,14 @@ exports.getUsers = () => {
     .select('*')
     .from('users');
 };
+
+exports.insertUser = ({ username, name, avatar_url }) => {
+  return connection('users')
+    .insert({ username, name, avatar_url })
+    .returning('*')
+    .then(userData => {
+      if (!userData)
+        return Promise.reject({ status: 404, msg: 'User Not Found' });
+      else return userData[0];
+    });
+};

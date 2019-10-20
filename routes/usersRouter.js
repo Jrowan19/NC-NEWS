@@ -1,9 +1,14 @@
 const usersRouter = require('express').Router();
-const { sendUserByID, sendUsers } = require('../controllers/users-controller');
+const {
+  sendUserByID,
+  sendUsers,
+  postUser
+} = require('../controllers/users-controller');
 const { methodNotFound } = require('../errors');
 
 usersRouter
   .route('/')
+  .post(postUser)
   .get(sendUsers)
   .all(methodNotFound);
 
