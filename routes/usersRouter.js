@@ -16,7 +16,7 @@ usersRouter
 usersRouter
   .route('/:username')
   .get(sendUserByID)
-  .delete(deleteUserbyUsername);
-// .all(methodNotFound);
+  .delete(deleteUserbyUsername)
+  .all(methodNotFound);
 
 module.exports = usersRouter;
