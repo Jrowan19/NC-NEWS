@@ -38,6 +38,8 @@ exports.removeUser = ({ username }) => {
     .where({ username })
     .delete()
     .then(result => {
-      return result;
+      if (result === 0)
+        return Promise.reject({ status: 404, msg: 'No Comment to Delete' });
+      else return result;
     });
 };
