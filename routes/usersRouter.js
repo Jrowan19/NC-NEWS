@@ -10,8 +10,8 @@ const { methodNotFound } = require('../errors');
 usersRouter
   .route('/')
   .post(postUser)
-  
   .get(sendUsers)
+  .delete(deleteUser)
   .all(methodNotFound);
 
 usersRouter

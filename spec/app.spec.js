@@ -132,24 +132,9 @@ describe("/api", () => {
                     
                 })
         })
-    })
-    
+    })    
 
     
-        it.only('ERROR - status 405 "method not allowed" message when trying patch users', () => {
-            const invalidMethods = ["patch", "put"];
-            const methodPromises = invalidMethods.map(method => {
-                return request(app)
-                [method]("/api/users/:username")
-                    .expect(405)
-                    .then(({ body }) => {
-                        expect(body.msg).to.equal("method not allowed");
-                    });
-            });
-            return Promise.all(methodPromises);
-        });
-
-
     describe('#GET ARTICLES/:article_id', () => {
         it("returns a 200 status and article data when passed a valid artcile_id", () => {
             return request(app)
@@ -504,7 +489,7 @@ describe("/api", () => {
                     expect(body.msg).to.equal('Topic not found');
                 });
         });
-        it('ERROR - status 405 "method not allowed" message when trying to post, patch or delete users', () => {
+        it('ERROR - status 405 "method not allowed" message when trying to post, patch or delete articles', () => {
             const invalidMethods = ["patch", "put", "delete"];
             const methodPromises = invalidMethods.map(method => {
                 return request(app)
