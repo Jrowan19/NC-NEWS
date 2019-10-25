@@ -1,11 +1,14 @@
-const commentsRouter = require('express').Router()
-const { patchCommentByCommentID, deleteCommentByID } = require('../controllers/comments-controller')
-const { methodNotFound } = require('../errors')
+const commentsRouter = require('express').Router();
+const {
+  patchCommentByCommentID,
+  deleteCommentByID
+} = require('../controllers/comments-controller');
+const { methodNotFound } = require('../errors');
 
-commentsRouter.route('/:comment_id')
-    .patch(patchCommentByCommentID)
-    .delete(deleteCommentByID)
-    .all(methodNotFound)
+commentsRouter
+  .route('/:comment_id')
+  .patch(patchCommentByCommentID)
+  .delete(deleteCommentByID)
+  .all(methodNotFound);
 
-
-module.exports = commentsRouter 
+module.exports = commentsRouter;
