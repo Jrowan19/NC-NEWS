@@ -32,3 +32,14 @@ exports.insertUser = ({ username, name, avatar_url }) => {
       else return userData[0];
     });
 };
+
+exports.removeUser = ({ username }) => {
+  return connection('users')
+    .where({ username })
+    .delete()
+    .then(result => {
+      if (result === 0)
+        return Promise.reject({ status: 404, msg: 'No User to Delete' });
+      else return result;
+    });
+};

@@ -110,7 +110,9 @@ describe("/api", () => {
                 });
         });
     })
-        describe.only('#POST USERS /USERS', () => {
+
+    
+        describe('#POST USERS /USERS', () => {
         it('returns status 201 and checks the keys and posted user', () => {
             return request(app)
                 .post('/api/users')
@@ -134,8 +136,8 @@ describe("/api", () => {
     
 
     
-        it('ERROR - status 405 "method not allowed" message when trying to post, patch or delete users', () => {
-            const invalidMethods = ["patch", "put", "delete"];
+        it.only('ERROR - status 405 "method not allowed" message when trying patch users', () => {
+            const invalidMethods = ["patch", "put"];
             const methodPromises = invalidMethods.map(method => {
                 return request(app)
                 [method]("/api/users/:username")
@@ -564,11 +566,7 @@ describe("/api", () => {
             });
         })
         describe('#DELETE /:comment_id', () => {
-            it("deletes the requested comment and returns status 204", () => {
-                return request(app)
-                    .delete("/api/comments/3")
-                    .expect(204);
-            });
+           
             it("ERROR - status 404 when passed a non existant comment_Id", () => {
                 return request(app)
                     .delete("/api/comments/1000")

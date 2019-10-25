@@ -2,19 +2,22 @@ const usersRouter = require('express').Router();
 const {
   sendUserByID,
   sendUsers,
-  postUser
+  postUser,
+  deleteUser
 } = require('../controllers/users-controller');
 const { methodNotFound } = require('../errors');
 
 usersRouter
   .route('/')
   .post(postUser)
-   .get(sendUsers)
+  
+  .get(sendUsers)
   .all(methodNotFound);
 
 usersRouter
   .route('/:username')
   .get(sendUserByID)
+  .delete(deleteUser)
   .all(methodNotFound);
 
 module.exports = usersRouter;
