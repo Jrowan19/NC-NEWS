@@ -29,7 +29,7 @@ exports.postUser = (req, res, next) => {
     .catch(next);
 };
 
-exports.deleteUser = (req, res, next) => {
+exports.deleteUserbyUsername = (req, res, next) => {
   removeUser(req.params)
     .then(() => {
       res.sendStatus(204);
