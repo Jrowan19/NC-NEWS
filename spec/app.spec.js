@@ -66,8 +66,7 @@ describe("/api", () => {
             return request(app)
                 .get('/api/users')
                 .expect(200)
-                .then(({ body }) => {
-                  
+                .then(({ body }) => {                  
                     expect(body.users).to.be.an('Array')
                     
                 })
