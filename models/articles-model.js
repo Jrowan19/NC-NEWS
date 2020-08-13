@@ -48,7 +48,7 @@ exports.insertComment = ({ article_id }, { username, body }) => {
 
 exports.selectCommentByID = (
   { article_id },
-  { sort_by = 'created_at', order = 'desc' }
+  { sort_by = 'created_at', order = 'desc', limit = 10, p }
 ) => {
   return connection
     .select('comments.*')
@@ -66,7 +66,7 @@ exports.selectAllArticles = ({
   order = 'desc',
   author,
   topic,
-  limit = 10,
+  limit = 12,
   p,
 }) => {
   if (!Number(limit) || limit < 0)
