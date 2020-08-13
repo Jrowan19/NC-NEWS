@@ -8,11 +8,11 @@ exports.selectArticleByID = ({ article_id }) => {
     .where('articles.article_id', article_id)
     .leftJoin('comments', 'articles.article_id', 'comments.article_id')
     .groupBy('articles.article_id')
-    .then(articleData => {
+    .then((articleData) => {
       if (!articleData.length)
         return Promise.reject({
           status: 404,
-          msg: `Article ${article_id} Not Found`
+          msg: `Article ${article_id} Not Found`,
         });
       else return articleData[0];
     });
@@ -25,11 +25,11 @@ exports.updateArticleByID = ({ article_id }, { inc_votes = 0 }) => {
     .where(' article_id', article_id)
     .increment('votes', inc_votes)
     .returning('*')
-    .then(articleData => {
+    .then((articleData) => {
       if (!articleData.length)
         return Promise.reject({
           status: 404,
-          msg: `Article ${article_id} Not Found`
+          msg: `Article ${article_id} Not Found`,
         });
       else return articleData;
     });
@@ -39,7 +39,7 @@ exports.insertComment = ({ article_id }, { username, body }) => {
   return connection('comments')
     .insert({ article_id, author: username, body })
     .returning('*')
-    .then(commentData => {
+    .then((commentData) => {
       if (!commentData)
         return Promise.reject({ status: 404, msg: 'Comment Not Found' });
       else return commentData[0];
@@ -48,7 +48,7 @@ exports.insertComment = ({ article_id }, { username, body }) => {
 
 exports.selectCommentByID = (
   { article_id },
-  { sort_by = 'created_at', order = 'desc', limit = 10, p }
+  { sort_by = 'created_at', order = 'desc' }
 ) => {
   return connection
     .select('comments.*')
@@ -67,37 +67,46 @@ exports.selectAllArticles = ({
   author,
   topic,
   limit = 10,
-  p
+  p,
 }) => {
-  return connection('articles')
-    .select(
-      'articles.author',
-      'title',
-      'articles.article_id',
-      'topic',
-      'articles.created_at',
-      'articles.votes'
-    )
-    .count({ comment_count: 'comments' })
-    .leftJoin('comments', 'articles.article_id', 'comments.article_id')
-    .groupBy('articles.article_id')
-    .orderBy(sort_by, order)
-    .limit(limit)
-    .offset(p * limit - limit)
-    .modify(query => {
-      if (author) {
-        query.where('articles.author', author);
-      }
-      if (topic) {
-        query.where('articles.topic', topic);
-      }
-    })
-    .then(articles => {
-      if (!articles.length && author) {
-        return Promise.reject({ status: 404, msg: 'Author not found' });
-      } else if (!articles.length && topic) {
-        return Promise.reject({ status: 404, msg: 'Topic not found' });
-      }
-      return articles;
+  if (!Number(limit) || limit < 0)
+    return Promise.reject({
+      status: 400,
+      msg: 'Limit must be a positive number',
     });
+  if ((p && !Number(p)) || (p && p < 0))
+    return Promise.reject({ status: 400, msg: 'p must be a positive number' });
+  if (order === 'asc' || order === 'desc') {
+    return connection('articles')
+      .select(
+        'articles.author',
+        'title',
+        'articles.article_id',
+        'topic',
+        'articles.created_at',
+        'articles.votes'
+      )
+      .count({ comment_count: 'comments' })
+      .leftJoin('comments', 'articles.article_id', 'comments.article_id')
+      .groupBy('articles.article_id')
+      .orderBy(sort_by, order)
+      .limit(limit)
+      .offset(p * limit - limit)
+      .modify((query) => {
+        if (author) {
+          query.where('articles.author', author);
+        }
+        if (topic) {
+          query.where('articles.topic', topic);
+        }
+      })
+      .then((articles) => {
+        if (!articles.length && author) {
+          return Promise.reject({ status: 404, msg: 'Author not found' });
+        } else if (!articles.length && topic) {
+          return Promise.reject({ status: 404, msg: 'Topic not found' });
+        }
+        return articles;
+      });
+  }
 };

@@ -7,7 +7,7 @@ const {
 
 const { formatDates, formatComments, makeRefObj } = require('../utils/utils');
 
-exports.seed = function (connection) {
+exports.seed = function async (connection) {
 
   return connection
     .migrate
