@@ -93,20 +93,38 @@ exports.selectAllArticles = ({
       .limit(limit)
       .offset(p * limit - limit)
       .modify((query) => {
-        if (author) {
-          query.where('articles.author', author);
-        }
-        if (topic) {
-          query.where('articles.topic', topic);
-        }
+        if (author) query.where({ 'articles.author': author });
+        if (topic) query.where({ topic });
+        if (limit) query.limit(limit);
+        if (p) query.offset(p * limit - limit);
       })
       .then((articles) => {
-        if (!articles.length && author) {
-          return Promise.reject({ status: 404, msg: 'Author not found' });
-        } else if (!articles.length && topic) {
-          return Promise.reject({ status: 404, msg: 'Topic not found' });
+        let waitPromise; //by passing this to the Promise.all it will wait for a response before proceeding
+        if (!articles.length) {
+          if (author) waitPromise = selectUserByID(author);
+          if (topic) waitPromise = selectTopic(topic);
         }
-        return articles;
+        return Promise.all([articles, waitPromise]);
+      })
+      .then(([articles]) => {
+        const total_count = selectArticleCount(author, topic);
+        return Promise.all([articles, total_count]);
+      })
+      .then(([articles, total_count]) => {
+        return [articles, total_count];
       });
-  }
+  } else return Promise.reject({ status: 400, msg: 'Invalid sort order' });
+};
+
+const selectArticleCount = (author, topic) => {
+  return connection
+    .select('article_id')
+    .from('articles')
+    .modify((query) => {
+      if (author) query.where({ author });
+      if (topic) query.where({ topic });
+    })
+    .then((allArticles) => {
+      return allArticles.length;
+    });
 };
